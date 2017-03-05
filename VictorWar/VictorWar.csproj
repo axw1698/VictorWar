@@ -81,6 +81,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\ControlID.cs" />
+    <Compile Include="Assets\Script\GameControl.cs" />
     <Compile Include="Assets\Script\Movement.cs" />
     <Compile Include="Assets\Script\SelectTarget.cs" />
   </ItemGroup>

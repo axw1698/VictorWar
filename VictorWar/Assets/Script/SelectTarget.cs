@@ -5,37 +5,42 @@ using UnityEngine;
 public class SelectTarget : MonoBehaviour {
     public GameObject arrowPrefab;
     GameObject arrow;
-
-	// Use this for initialization
-	void Start () {
-        //arrow = this.transform.Find("Arrow").gameObject;
-        //arrow.
+    public bool startSelectBool;
+    bool showArr;
+    // Use this for initialization
+    void Start () {
+        showArr = false;
     }
 	
 	// Update is called once per frame
 	void Update () {
         //print("Angle: " + this.transform.localEulerAngles);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (startSelectBool == true)
         {
-            startSelect();
-        }
-        // rotate the chess through arrow 
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            //print("Rotate arror");
+            if (showArr == false)
+            {
+                showArrow();
+                showArr = true;
+            }
 
-            this.transform.Rotate(0, Time.deltaTime * (-25), 0);
+            // rotate the chess through arrow 
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                //print("Rotate arror");
 
-        }
-        else if(Input.GetKey(KeyCode.RightArrow))
-        {
-            this.transform.Rotate(0, Time.deltaTime * (25), 0);
+                this.transform.Rotate(0, Time.deltaTime * (-25), 0);
 
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                this.transform.Rotate(0, Time.deltaTime * (25), 0);
+
+            }
         }
     }
-
-    void startSelect()
+    // Need a reset method
+    void showArrow()
     {
         // appear a selecting arrow 
         // find the forward
