@@ -3,24 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ControlID : MonoBehaviour {
-    public int currentId;
+    private int currentId;
     public string currentClassName;
     public int currentTeamId; //0-red/1-blue
     GameObject objClicked;
+    public bool canSelect;
 
     // Use this for initialization
     void Start () {
         objClicked = null;
-
+        currentTeamId = this.GetComponent<GameControl>().GetTeamId();
     }
 	
 	// Update is called once per frame
 	void Update () {
         // check what clicked
-        if(objClicked != null)
+        currentTeamId = this.GetComponent<GameControl>().GetTeamId();
+
+        if (objClicked != null && canSelect == true && currentTeamId == objClicked.GetComponent<Movement>().team)
         {
             objClicked.GetComponent<SelectTarget>().startSelectBool = true;
             objClicked.GetComponent<Movement>().attackActivate = true;
+            canSelect = false;
             // Need to find a way turn off others after clicked
         }
         // check team

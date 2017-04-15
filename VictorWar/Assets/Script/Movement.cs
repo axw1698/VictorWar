@@ -4,6 +4,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour {
 
     // attribute
+    GameObject gameControl;
     public string charClass;
     public int id;
     public int team;
@@ -16,6 +17,7 @@ public class Movement : MonoBehaviour {
     private Vector3 originPos;
     Vector3 destination;
     bool ifMove;
+    bool ifHit = false;
     Vector3 target;
     private float remainAttack;
 	// Use this for initialization
@@ -41,6 +43,7 @@ public class Movement : MonoBehaviour {
         }
         velocity = attack;
         ifMove = false;
+        gameControl = GameObject.FindGameObjectWithTag("GC");
     }
     // Update is called once per frame
     void Update () {
@@ -50,15 +53,18 @@ public class Movement : MonoBehaviour {
             destination = this.transform.position + (this.transform.forward * attack);
             originPos = this.transform.position;
             ifMove = true;
-            //Debug.Log("Start to move");
-            //attackActivate = false;
+            Debug.Log("Start to move");
+            attackActivate = false;
+            this.GetComponent<SelectTarget>().startSelectBool = false;
+            print(charClass + " : Velocity: " + velocity + " Attack: " + attack + " Distination: " + destination);
+
 
         }
         if (ifMove == true)
         {
 
             //velocity -= friction;
-            print(charClass+" : Velocity: " + velocity + " Attack: " + attack + " Distination: " + destination);
+            //print(charClass+" : Velocity: " + velocity + " Attack: " + attack + " Distination: " + destination);
 
             transform.position = Vector3.MoveTowards(this.transform.position, destination, velocity *Time.deltaTime);
             remainAttack = attack-(this.transform.position - originPos).magnitude;
@@ -70,6 +76,9 @@ public class Movement : MonoBehaviour {
             if(Vector3.Distance(this.transform.position,destination)<0.1f)
             {
                 ifMove = false;
+                // the other team can move
+
+                gameControl.GetComponent<GameControl>().changeTeam();
 
             }
             //transform.Translate(Vector3.forward * Time.deltaTime * velocity);
@@ -108,6 +117,8 @@ public class Movement : MonoBehaviour {
 
         if (velocity<=0)
         {
+            velocity = 0;
+            ifHit = false;
             return;
             // nothing happened
         }
@@ -117,6 +128,7 @@ public class Movement : MonoBehaviour {
             destination = this.transform.position + (hitObj.transform.forward * velocity);
             ifMove = true;
             this.transform.forward = hitObj.transform.forward;
+            ifHit = true;
         }
     }
     // if collide
@@ -148,7 +160,7 @@ public class Movement : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject.FindGameObjectWithTag("GC").GetComponent<ControlID>().GetClickedGameObject(this.gameObject);
+            gameControl.GetComponent<ControlID>().GetClickedGameObject(this.gameObject);
         }
     }
     // Get and Set

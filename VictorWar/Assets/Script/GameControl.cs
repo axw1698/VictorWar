@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameControl : MonoBehaviour {
+    public Camera[] cameras;
     private int gameRound;
     private int blueRemain;
     private int redRemain; // zero and lost
@@ -14,15 +15,41 @@ public class GameControl : MonoBehaviour {
         blueRemain = 14;
         redRemain = 14;
         gameEnd = false;
-        currentTeam = 0;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		while(gameEnd == false)
-        {
-            // select movement//
+        currentTeam = 1;
+        cameras[0].gameObject.SetActive(false);
+        cameras[1].gameObject.SetActive(false);
 
+        cameras[currentTeam].gameObject.SetActive(true);
+
+    }
+
+    // Update is called once per frame
+    void Update () {
+
+
+
+    }
+
+    public int GetTeamId()
+    {
+        return currentTeam;
+    }
+    public void changeTeam()
+    {
+        print("Change Team");
+        if(currentTeam == 1)
+        {
+            currentTeam = 0;
+        }else if(currentTeam == 0)
+        {
+            currentTeam = 1;
         }
-	}
+
+        // reset camera due to the team
+        cameras[0].gameObject.SetActive(false);
+        cameras[1].gameObject.SetActive(false);
+        cameras[currentTeam].gameObject.SetActive(true);
+
+        this.GetComponent<ControlID>().canSelect = true;
+    }
 }

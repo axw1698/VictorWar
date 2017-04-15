@@ -37,6 +37,10 @@ public class SelectTarget : MonoBehaviour {
                 this.transform.Rotate(0, Time.deltaTime * (25), 0);
 
             }
+        }else
+        {
+            showArr = false;
+            destroyArrow();
         }
     }
     // Need a reset method
@@ -44,11 +48,16 @@ public class SelectTarget : MonoBehaviour {
     {
         // appear a selecting arrow 
         // find the forward
+        print("Create arrow");
+
         print(this.transform.forward);
         arrow = (GameObject)Instantiate(arrowPrefab,this.transform.position, transform.rotation);
         arrow.transform.parent = this.gameObject.transform;
         arrow.transform.position += transform.forward * 10;
-
-
+    }
+    void destroyArrow()
+    {
+        //print("Hide arrow");
+        Destroy(arrow);
     }
 }
